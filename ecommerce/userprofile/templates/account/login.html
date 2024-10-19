@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content  %}
+
+    <div class="cotainer-fluid">
+        <div class="row d-flex justify-content-center ">
+            <div class="col6">
+
+            </div>
+            <div class="col-6">
+
+    <form action="" method="post" class="mx-5 my-5">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-outline-primary">Login</button>
+    </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

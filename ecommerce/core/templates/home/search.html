@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid mx-5 my-5">
+
+
+    <div class="row">
+
+        {% if product_list %}
+
+        {% for product in product_list %}
+
+        <div class="col-4 my-3 border-primary ">
+            <div class="card border-secondary " style="width: 20rem;  ">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ proudct.image.url }}">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <li class="list-group-item"> {{product.title}} </li>
+                    </h5>
+                    <p class="card-text"> {{product.description}} </p>
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item"> Price : $ {{product.get_descount_price}} </li>
+                    <li class="list-group-item"> </li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="btn btn-outline-primary mx-3" card-link">Add cart </a>
+                    <a href="{% url 'detail' product.id %}" class="btn btn-outline-primary mx-3" card-link">view</a>
+                </div>
+            </div>
+
+        </div>
+
+            {% endfor %}
+
+            {% else %}
+                <h3> No search result found </h3>
+
+        {% endif %}
+        
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

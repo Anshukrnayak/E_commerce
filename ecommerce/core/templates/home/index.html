@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid mx-5 my-5">
+
+
+
+    <h3> Product category  </h3>
+
+            <div class="row">
+                
+                {% for category in category_list %}
+                <div class="col-1">
+                    <a class=" mx-5 btn btn-outline-secondary" href="{% url 'category' category.id %}">{{category.title}}</a>
+                </div>
+                {% endfor %}
+
+
+            </div>
+
+
+    <div class="row">
+        {% for product in product_list %}
+
+        <div class="col-4 my-3 border-primary ">
+            <div class="card border-secondary " style="width: 20rem;  ">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ proudct.image.url }}">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <li class="list-group-item"> {{product.title}} </li>
+                    </h5>
+                    
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item"> Price : $ {{product.get_descount_price}} </li>
+                    <li class="list-group-item"> </li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="btn btn-outline-primary mx-3" card-link">Add cart </a>
+                    <a href="{% url 'detail' product.id %}" class="btn btn-outline-primary mx-3" card-link">view</a>
+                </div>
+            </div>
+
+        </div>
+
+            {% endfor %}
+
+
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+{% endblock %}

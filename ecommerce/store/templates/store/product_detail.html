@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid mx-5 my-5">
+
+
+
+
+    <div class="row">
+
+        <div class="col-4 my-3 border-primary ">
+            <div class="card border-secondary " style="width: 25rem;  ">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ proudct.image.url }}">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <li class="list-group-item"> {{product.title}} </li>
+                    </h5>
+                    <p class="card-text"> {{product.description}} </p>
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item"> Price : $ {{product.get_descount_price}} </li>
+                    <li class="list-group-item">
+     
+                        Vendor : <a href="{% url 'vendor' product.user.id %}" class="btn btn-outline-secondary">
+                        {{product.user.username}}
+                    </a> 
+                </li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="btn btn-outline-primary mx-3" card-link">Add cart </a>
+                    <a href="{% url 'detail' product.id %}" class="btn btn-outline-primary mx-3" card-link">Buy</a>
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}
