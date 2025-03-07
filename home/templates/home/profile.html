@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="bg-gray-900 text-white min-h-screen py-10">
+    <div class="container mx-auto px-5">
+        <div class="max-w-3xl mx-auto bg-gray-800 rounded-lg shadow-md p-6">
+            <!-- Profile Image & Info -->
+            <div class="flex items-center space-x-6">
+                <img src="{{ profile.profile_pic.url }}" alt="Profile Picture"
+                     class="w-24 h-24 rounded-full object-cover border-4 border-green-500">
+                <div>
+                    <p class="text-gray-400">{{ user.email }}</p>
+                    <p class="mt-2 text-green-400">{{ user.profile.bio }}</p>
+                </div>
+            </div>
+
+            <!-- User Details -->
+            <div class="mt-6">
+                <p><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+                <p><strong>Last Login:</strong> {{ user.last_login|date:"F d, Y, H:i A" }}</p>
+            </div>
+
+            <!-- Buttons for Staff Users -->
+            {% if user.is_staff %}
+            <div class="mt-6">
+                <a href="{% url 'create_product' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-green-600">
+                    ➕ Add Product
+                </a>
+                <a href="" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    ⚙️ Manage Products
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- User's Products (if seller) -->
+        {% if profile.products.all %}
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-6 text-center">Your Products</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for product in profile.products.all %}
+                <div class="bg-gray-800 rounded-lg shadow-md p-4">
+                    <img src="{{ product.product_pic.url }}" alt="{{ product.name }}" class="w-full h-40 object-cover rounded-lg">
+                    <h3 class="text-xl font-semibold mt-3">{{ product.name }}</h3>
+                    <p class="text-gray-400 mt-1">{{ product.category.name }}</p>
+                    <p class="text-lg font-bold text-green-400 mt-2">${{ product.price }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="block text-center mt-4 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
+                        View Details
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

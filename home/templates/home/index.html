@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="bg-gray-900 text-white">
+
+    <!-- Hero Section -->
+    <section class="text-center py-16 bg-gray-800">
+        <h2 class="text-4xl font-bold">Welcome to Our Store</h2>
+        <p class="mt-2 text-gray-400">Find the best products at affordable prices!</p>
+    </section>
+
+    <!-- Product Grid -->
+    <div class="container mx-auto py-10 px-5">
+        <h2 class="text-3xl font-bold text-center mb-8">Latest Products</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="bg-gray-800 rounded-lg shadow-md p-4">
+                <img src="{{ product.product_pic.url }}" alt="{{ product.name }}" class="w-full h-40 object-cover rounded-lg">
+                <h3 class="text-xl font-semibold mt-3">{{ product.name }}</h3>
+                <p class="text-gray-400 mt-1">{{ product.category.name }}</p>
+                <p class="text-lg font-bold text-green-400 mt-2">${{ product.price }}</p>
+                <a href="{% url 'product_detail' product.id %}" class="block text-center mt-4 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
+                    View Details
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+{% endblock %}

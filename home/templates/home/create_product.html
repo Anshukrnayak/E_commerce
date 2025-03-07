@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="bg-gray-900 text-white min-h-screen flex items-center justify-center py-10">
+    <div class="container mx-auto max-w-lg bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold text-center mb-4">Add New Product</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+
+            <!-- Product Image -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300">Product Image</label>
+                {{ form.product_pic }}
+            </div>
+
+            <!-- Product Name -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300">Product Name</label>
+                {{ form.name }}
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300">Price</label>
+                {{ form.price }}
+            </div>
+
+            <!-- Quantity -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300">Quantity</label>
+                {{ form.quantity }}
+            </div>
+
+            <!-- Category -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300">Category</label>
+                {{ form.category }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 text-lg font-semibold">
+                Submit
+            </button>
+        </form>
+    </div>
+</main>
+{% endblock %}

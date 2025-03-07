@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-xl font-bold">My E-Commerce</a>
+            <ul class="flex space-x-6">
+                <li><a href="{% url 'home' %}" class="hover:text-gray-400">Products</a></li>
+                <li><a href="{% url 'profile' %}" class="hover:text-gray-400">Profile</a></li>
+                <li><a href="/cart" class="hover:text-gray-400">Cart</a></li>
+                {% if request.user.is_authenticated %}
+                 <li><a href="/login" class="hover:text-gray-400">Logout</a></li>
+                {% else %}
+                   <li><a href="/login" class="hover:text-gray-400">Signup</a></li>
+                <li><a href="/login" class="hover:text-gray-400">Login</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-6">
+        {% block content %}{% endblock %}
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 p-4 text-center mt-10">
+        <p>&copy; 2025 My E-Commerce. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
