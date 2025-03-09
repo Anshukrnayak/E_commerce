@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import stripe
+from django.conf import settings
+
 
 # Custom User Model
 class CustomUser(AbstractUser):
@@ -47,8 +50,9 @@ class Product(BaseModel):
     seller = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=5, decimal_places=2)  # Increased max_digits for better pricing
+    content=models.TextField()
     quantity = models.PositiveIntegerField()  # Prevent negative quantities
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -64,7 +68,13 @@ class Order(BaseModel):
 
     customer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)  # Increased precision
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2,default=0)  # Increased precision
+
+    def calculate_total_amount(self):
+        """Calculates total price based on all OrderItems."""
+        self.total_amount = sum(item.subtotal for item in self.items.all())  # Sum of all subtotals
+        self.save()
+
 
     def __str__(self):
         return f"Order {self.id} - {self.customer.user.email}"
@@ -77,32 +87,30 @@ class OrderItem(BaseModel):
     quantity = models.PositiveIntegerField(default=1)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)  # Increased precision
 
+
+    def save(self, *args, **kwargs):
+        """Automatically update subtotal when quantity changes."""
+        self.subtotal = self.product.price * self.quantity
+        super().save(*args, **kwargs)  # Call the original save() method
+
+
     def __str__(self):
         return f"{self.quantity} x {self.product.name} for {self.order}"
 
 
-# Payment Model
-class Payment(BaseModel):
-    STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Accepted', 'Accepted'),
-        ('Processing', 'Processing'),
-    ]
 
-    PAYMENT_CHOICES = [
-        ('COD', 'Cash on Delivery'),
-        ('CARD', 'Credit/Debit Card'),
-        ('UPI', 'UPI Payment'),
-        ('NET_BANKING', 'Net Banking'),
-        ('WALLET', 'E-Wallet'),
-    ]
-
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_payments')
-    payment_customer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='customer_payments')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    payment_type = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='COD')
+class Payment(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    stripe_charge_id = models.CharField(max_length=50, blank=True, null=True)  # Store Stripe Transaction ID
+    status = models.CharField(
+        max_length=20,
+        choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')],
+        default='Pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.payment_type} - {self.status}"
+        return f"Payment {self.id} - {self.status}"
 
 

@@ -27,4 +27,13 @@ class ProfileForm(forms.ModelForm):
         model=Profile
         exclude=['user']
 
+        widgets = {
+            'profile_pic': forms.ClearableFileInput(attrs={
+                'class': 'block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-500 file:text-white hover:file:bg-green-600'}),
+            'location': forms.TextInput(attrs={'class': 'w-full p-2 border rounded-lg bg-gray-700 text-white',
+                                           'placeholder': 'Location'}),
+            'contact': forms.NumberInput(
+                attrs={'class': 'w-full p-2 border rounded-lg bg-gray-700 text-white', 'placeholder': 'contact'}),
+
+        }
 

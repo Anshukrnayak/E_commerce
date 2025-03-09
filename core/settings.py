@@ -29,6 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'account',
+    'order_app',
+    'api',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -112,7 +115,13 @@ STATIC_URL = 'static/'
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
+LOGIN_URL = 'login'  # Change to your login page URL
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STRIPE_SECRET_KEY = "your_secret_key"
+STRIPE_PUBLISHABLE_KEY = "your_publishable_key"

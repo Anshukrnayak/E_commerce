@@ -15,11 +15,11 @@
             <ul class="flex space-x-6">
                 <li><a href="{% url 'home' %}" class="hover:text-gray-400">Products</a></li>
                 <li><a href="{% url 'profile' %}" class="hover:text-gray-400">Profile</a></li>
-                <li><a href="/cart" class="hover:text-gray-400">Cart</a></li>
+                <li><a href="{% url 'cart' %}" class="hover:text-gray-400">Cart</a></li>
                 {% if request.user.is_authenticated %}
-                 <li><a href="/login" class="hover:text-gray-400">Logout</a></li>
+                 <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
                 {% else %}
-                   <li><a href="/login" class="hover:text-gray-400">Signup</a></li>
+                   <li><a href="{% url 'signup' %}" class="hover:text-gray-400">Signup</a></li>
                 <li><a href="/login" class="hover:text-gray-400">Login</a></li>
                 {% endif %}
 
